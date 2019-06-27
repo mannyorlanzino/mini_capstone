@@ -1,18 +1,22 @@
 class Api::ProductsController < ApplicationController
-  def allproducts
+  def index
     @allproducts = Product.all
-    render "allproducts.json.jb"
+    render "index.json.jb"
   end
 
-  # def product # Using array index
-  #   id = params["id"].to_i - 1
-  #   @product = Product.all[id]
-  #   render "product.json.jb"
-  # end
+  def create
+    @product = Product.new(
+      name: params[:name],
+      price: params[:price],
+      image_url: params[:image_url],
+      description: params[:description],
+    )
+    @product.save
+    render "show.json.jb"
+  end
 
-  def product # Using .find_by method
-    product_id = params["id"]
-    @product = Product.find_by(id: product_id)
-    render "product.json.jb"
+  def show # Using .find_by method
+    @product = Product.find_by(id: params["id"])
+    render "show.json.jb"
   end
 end
