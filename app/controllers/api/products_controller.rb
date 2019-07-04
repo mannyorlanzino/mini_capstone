@@ -25,7 +25,6 @@ class Api::ProductsController < ApplicationController
     @product = Product.new(
       name: params[:name],
       price: params[:price],
-      image_url: params[:image_url],
       description: params[:description],
     )
     if @product.save
@@ -33,6 +32,7 @@ class Api::ProductsController < ApplicationController
     else
       render json: { errors: @product.errors.full_messages }, status: :unprocessable_entity
     end
+    Image.create(url: params[:image_url], product_id: @product.id)
   end
 
   def show # Using .find_by method
@@ -42,11 +42,11 @@ class Api::ProductsController < ApplicationController
 
   def update
     @product = Product.find_by(id: params["id"])
-    @product.id = params["id"] || @product.id
-    @product.name = params["name"] || @product.name
-    @product.price = params["price"] || @product.price
-    @product.image_url = params["image_url"] || @product.image_url
-    @product.description = params["description"] || @product.description
+    @product.id = params[:id] || @product.id
+    @product.name = params[:name] || @product.name
+    @product.price = params[:price] || @product.price
+    @product.description = params[:description] || @product.description
+    Image.create(url: params[:image_url], product_id: @product.id)
     if @product.save
       render "show.json.jb"
     else
