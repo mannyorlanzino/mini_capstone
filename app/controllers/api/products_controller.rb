@@ -28,11 +28,11 @@ class Api::ProductsController < ApplicationController
       description: params[:description],
     )
     if @product.save
+      Image.create(url: params[:image_url], product_id: @product.id)
       render "show.json.jb"
     else
       render json: { errors: @product.errors.full_messages }, status: :unprocessable_entity
     end
-    Image.create(url: params[:image_url], product_id: @product.id)
   end
 
   def show # Using .find_by method
