@@ -36,13 +36,12 @@ class Api::ProductsController < ApplicationController
   end
 
   def show # Using .find_by method
-    @product = Product.find_by(id: params["id"])
+    @product = Product.find_by(id: params[:id])
     render "show.json.jb"
   end
 
   def update
-    @product = Product.find_by(id: params["id"])
-    @product.id = params[:id] || @product.id
+    @product = Product.find_by(id: params[:id])
     @product.name = params[:name] || @product.name
     @product.price = params[:price] || @product.price
     @product.description = params[:description] || @product.description
@@ -55,7 +54,7 @@ class Api::ProductsController < ApplicationController
   end
 
   def destroy
-    @product = Product.find_by(id: params["id"])
+    @product = Product.find_by(id: params[:id])
     @product.destroy
     render json: "Product has been destroyed."
   end
