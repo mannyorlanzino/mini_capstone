@@ -9,4 +9,5 @@
   total: product.total,
   description: product.description,
   images: product.images,
+  categories: product.categories,
 }

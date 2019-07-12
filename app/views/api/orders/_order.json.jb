@@ -1,8 +1,13 @@
+formatted_carted_products = []
+
+order.carted_products.each do |carted_product|
+  formatted_carted_products << { quantity: carted_product.quantity, product: carted_product.product }
+end
+
 {
   id: order.id,
-  user: order.user,
-  product: order.product,
-  quantity: order[:quantity],
+  products: order.products,
+  carted_products: formatted_carted_products,
   subtotal: order[:subtotal],
   tax: order[:tax],
   total: order[:total],
