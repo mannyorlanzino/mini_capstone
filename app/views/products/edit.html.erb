@@ -1,0 +1,39 @@
+<h2>Edit Product</h2>
+<form action="/products/<%= @product.id %>" method="post">
+  <input type="hidden" name="_method" value="patch">
+  <div>
+    Name: <input type="text" name="name" value="<%= @product.name %>">
+  </div>
+  <div>
+    Price: <input type="number" name="price" value="<%= @product.price %>">
+  </div>
+  <div>
+    Description: <input type="text" name="description" value="<%= @product.description %>">
+  </div>
+   <div>
+    Supplier: <select name=supplier_id>
+      <% @suppliers.each do |supplier| %>
+        <% if supplier.id == @product.supplier_id %>
+          <option value="<%= supplier.id %>" selected><%= supplier.name %></option>
+        <% else %>
+          <option value="<%= supplier.id %>"><%= supplier.name %></option>
+        <% end %>
+      <% end %>
+    </select>
+  </div> 
+  <% index = 0 %>
+  <% @product.images.each do |image| %>
+    <div>
+      Image URL: <input type="text" name="url<%= index.to_s %>" value="<%= image.url %>">
+    </div>
+    <% index += 1 %>
+  <% end %>
+  <div>
+    <% p index.to_s %>
+    Image URL: <input type="text" name="urlnew">
+  </div>
+  
+  <div>
+    <input type="submit" value="Update Product">
+  </div>
+</form>

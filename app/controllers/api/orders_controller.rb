@@ -22,10 +22,11 @@ class Api::OrdersController < ApplicationController
     total = 0
     purchased_product_ids = []
     carted_products.each do |carted_product|
-      subtotal = subtotal + carted_product.product.price
+      subtotal = subtotal + carted_product.product.price * carted_product.quantity
       tax = tax + carted_product.product.tax
       total = total + subtotal + tax
-      carted_product.update(status: "purchased")
+      # carted_product.update(status: "purchased")
+      # OR carted_product.status = "purchased"
       purchased_product_ids << carted_product.id
     end
 
@@ -37,8 +38,15 @@ class Api::OrdersController < ApplicationController
     )
 
     if @order.save
-      purchased_product_ids.each do |purchased_product_id|
-        CartedProduct.where(id: purchased_product_id).update(order_id: @order.id)
+      # purchased_product_ids.each do |purchased_product_id|
+        # CartedProduct.where(id: purchased_product_id).update(order_id: @order.id)
+        carted_products.update_all(status: "purchased", order_id: @order_id)
+
+        carted_products.each do |carted_product|
+          carted.product.status = "purchased"
+          carted_product.order_id = @order.id
+          carted_product.save
+        end
       end
       render "show.json.jb"
     else

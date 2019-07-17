@@ -1,0 +1,11 @@
+<% @products.each do |product| %>
+  <h2>Name: <%= product.name %></h2>
+  <p>Price: <%= product.price %></p>
+  <p>Description: <%= product.description %></p>
+  <% product.images.each do |image| %>
+    <img src=<%= image.url %> width = 200>
+  <% end %>
+  <p>
+    <a href="/products/<%= product.id%>"> Product info </a>
+  </p>
+<% end %>
